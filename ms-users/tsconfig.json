@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "rootDirs": ["src", "__tests__", "database", "scripts"],
+    "baseUrl": "./src"
+  },
+  "include": ["src", "__tests__", "database", "scripts"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+  },
+}

@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  userdb:
+    image: postgres
+    container_name: userdb
+    environment:
+      POSTGRES_USER: $TYPEORM_USERNAME
+      POSTGRES_PASSWORD: $TYPEORM_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  ms-user:
+    build:
+      context: .
+    container_name: ms-user
+    volumes:
+      - ./:/app
+    ports:
+      - "3002:3002"
+    restart: always
+    depends_on:
+      - userdb
+    links:
+      - userdb

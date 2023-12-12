@@ -12,6 +12,11 @@ export class LoginController implements Controller {
         unauthorized()
       }
 
+      if (request.apiToken) {
+        const result = await this.entity.authApi(request.apiToken)
+        return !result ? unauthorized() : ok(result)
+      }
+
       const result = await this.entity.auth(request.email, request.password)
       return !result ? unauthorized() : ok(result)
     } catch (error) {
@@ -22,7 +27,8 @@ export class LoginController implements Controller {
 
 export namespace LoginController {
   export type Request = {
-    email: string
-    password: string
+    email?: string
+    password?: string
+    apiToken?: string
   }
 }

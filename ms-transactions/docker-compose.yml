@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  transactiondb:
+    image: postgres
+    container_name: transactiondb
+    environment:
+      POSTGRES_USER: $TYPEORM_USERNAME
+      POSTGRES_PASSWORD: $TYPEORM_PASSWORD
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  ms-wallet:
+    build:
+      context: .
+    container_name: ms-wallet
+    volumes:
+      - ./:/app
+    ports:
+      - "3001:3001"
+    restart: always
+    depends_on:
+      - transactiondb
+    links:
+      - transactiondb

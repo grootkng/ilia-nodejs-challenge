@@ -37,14 +37,15 @@ export class TransactionImplementation implements ITransactionUsecase {
     }
   }
 
-  public async balance(userId: string): Promise<TransactionEntity> {
+  public async balance(userId: string): Promise<number> {
     try {
       const user = await this.userRepository.findById(userId)
       if (!user) {
         throw new UserNotExistException(userId)
       }
 
-      return await this.transactionRepository.balance(userId)
+      const amount = await this.transactionRepository.balance(userId)
+      return Number(amount)
     } catch (error) {
       console.error({ error })
       throw error

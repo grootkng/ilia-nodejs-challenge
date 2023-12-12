@@ -1,52 +1,29 @@
 import { Controller } from '../../src/infra/api/protocols'
 
-import { TransactionRepository } from '../infra/db/repository/transaction-repository'
-import { TransactionImplementation } from '../domain/implementation/transaction-implementation'
-import { BalanceTransactionController } from '../infra/api/controllers/transaction/balance-transaction-controller'
-import { UserEntity } from 'domain/entity/user-entity'
+import { TransactionRepository } from '../../src/infra/db/repository/transaction-repository'
+import { MockUserRepository } from '../infra/mock-user-repository'
+import { TransactionImplementation } from '../../src/domain/implementation/transaction-implementation'
+import { BalanceTransactionController } from '../../src/infra/api/controllers/transaction/balance-transaction-controller'
 
 const makeSut = (): Controller => {
-  const repository = new TransactionRepository()
-  const entity = new TransactionImplementation(repository)
+  const transactionRepository = new TransactionRepository()
+  const userRepository = new MockUserRepository()
+  const entity = new TransactionImplementation(transactionRepository, userRepository)
   return new BalanceTransactionController(entity)
 }
 
-const makeDatabaseResult = (): UserEntity => {
-  return {
-    id: 'string',
-    firstName: 'string',
-    lastName: 'string',
-    email: 'string',
-    password: 'string'
-  }
-}
-
-describe('find by id user', () => {
+describe('find balance', () => {
   it('should return 200', async () => {
     jest
-      .spyOn(TransactionRepository.prototype, 'findBy')
-      .mockImplementation(async () => await Promise.resolve(makeDatabaseResult()))
+      .spyOn(TransactionRepository.prototype, 'balance')
+      .mockImplementation(async () => await Promise.resolve(1))
 
     const sut = makeSut()
     const httpRequestParams = {
-      id: 'string'
+      userId: 'string'
     }
 
     const httpResponse = await sut.handle(httpRequestParams)
     expect(httpResponse.statusCode).toBe(200)
-  })
-
-  it('should return 404 when user not found', async () => {
-    jest
-      .spyOn(TransactionRepository.prototype, 'findBy')
-      .mockImplementation(async () => await Promise.resolve(null))
-
-    const sut = makeSut()
-    const httpRequestParams = {
-      id: 'string'
-    }
-
-    const httpResponse = await sut.handle(httpRequestParams)
-    expect(httpResponse.statusCode).toBe(404)
   })
 })

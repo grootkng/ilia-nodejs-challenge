@@ -44,17 +44,19 @@ export class TransactionRepository implements ITransactionUsecase {
     }
   }
 
-  async balance(userId: string): Promise<TransactionEntity> {
+  async balance(userId: string): Promise<number> {
     try {
       const entityManager = getManager()
       const result = await entityManager.query(`
         SELECT
           SUM(amount) AS amount
+        FROM
+          transactions
         WHERE
           user_id = '${userId}';
       `)
 
-      return result?.at(0)
+      return result?.at(0)?.amount
     } catch (error) {
       throw new Error(`[TransactionRepository] ${error}`)
     }

@@ -1,5 +1,5 @@
 import { Middleware, HttpResponse } from '../protocols'
-import { unauthorized, ok, serverError } from '../helpers'
+import { unauthorized, serverError, emptyOk } from '../helpers'
 
 import { IAuthUsecase } from '../../../domain/usecases/auth-usecase'
 
@@ -12,7 +12,7 @@ export class AuthMiddleware implements Middleware {
         return unauthorized()
       }
 
-      return ok(null)
+      return emptyOk()
     } catch (error) {
       return serverError(error)
     }

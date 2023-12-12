@@ -7,6 +7,11 @@ export const ok = (data: any): HttpResponse => ({
   }
 })
 
+export const emptyOk = (): HttpResponse => ({
+  statusCode: 200,
+  body: null
+})
+
 export const created = (): HttpResponse => ({
   statusCode: 201,
   body: null

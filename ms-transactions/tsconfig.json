@@ -6,10 +6,10 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "rootDirs": ["src", "__tests__", "database", "scripts"],
+    "rootDirs": ["src", "__tests__", "database"],
     "baseUrl": "./src"
   },
-  "include": ["src", "__tests__", "database", "scripts"],
+  "include": ["src", "__tests__", "database"],
   "ts-node": {
     "transpileOnly": true,
     "files": true,

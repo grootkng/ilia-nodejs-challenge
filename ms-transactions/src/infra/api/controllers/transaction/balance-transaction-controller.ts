@@ -9,8 +9,8 @@ export class BalanceTransactionController implements Controller {
 
   async handle(request: BalanceTransactionController.Request): Promise<HttpResponse> {
     try {
-      const result = await this.entity.balance(request.userId)
-      return ok(result)
+      const amount = await this.entity.balance(request.userId)
+      return ok({ amount: amount })
     } catch (error) {
       if (error instanceof UserNotExistException) {
         return badRequest(error)

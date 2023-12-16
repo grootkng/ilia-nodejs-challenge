@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - ./database/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - internal-net
 
   ms-user:
     build:
@@ -25,3 +27,9 @@ services:
       - userdb
     links:
       - userdb
+    networks:
+      - internal-net
+
+networks:
+  internal-net:
+    driver: bridge
